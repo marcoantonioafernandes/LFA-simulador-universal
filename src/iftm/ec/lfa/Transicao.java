@@ -10,22 +10,24 @@ package iftm.ec.lfa;
  * @author marco
  */
 public class Transicao {
-    private int e_inicial;
+    private int estadoInicial;
     private char caracter;
-    private int e_final;
+    private int estadoFinal;
     
-    public Transicao(int e_inicial, char caracter, int e_final){
-        this.e_inicial = e_inicial;
+    public Transicao(){}
+    
+    public Transicao(int estadoInicial, char caracter, int estadoFinal){
+        this.estadoInicial = estadoInicial;
         this.caracter = caracter;
-        this.e_final = e_final;
+        this.estadoFinal = estadoFinal;
     }
 
-    public int getE_inicial() {
-        return e_inicial;
+    public int getEstadoInicial() {
+        return estadoInicial;
     }
 
-    public void setE_inicial(int e_inicial) {
-        this.e_inicial = e_inicial;
+    public void setEstadoInicial(int estadoInicial) {
+        this.estadoInicial = estadoInicial;
     }
 
     public char getCaracter() {
@@ -36,13 +38,15 @@ public class Transicao {
         this.caracter = caracter;
     }
 
-    public int getE_final() {
-        return e_final;
+    public int getEstadoFinal() {
+        return estadoFinal;
     }
 
-    public void setE_final(int e_final) {
-        this.e_final = e_final;
+    public void setEstadoFinal(int estadoFinal) {
+        this.estadoFinal = estadoFinal;
     }
+
+    
     
     
 }

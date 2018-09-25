@@ -23,7 +23,9 @@ public class AutomatoController {
             int e = 0;
             boolean erro = false;
             String valor = "";
+            Automato automato = new Automato();
             while(s.hasNextLine()){
+                Transicao transicao = new Transicao();
                 String linha = s.nextLine();
                 for(int i = 0;i < linha.length();i++){
                     c = linha.charAt(i);
@@ -41,6 +43,11 @@ public class AutomatoController {
                             if(Character.isDigit(c)) valor += c;
                             else if(c == ',') e = 2;
                             else e = 14;
+                            break;
+                        case 2:
+                            transicao.setEstadoInicial(Integer.parseInt(valor));
+                            valor = "";
+                            //proximas transições
                             break;
                     }
                 }
