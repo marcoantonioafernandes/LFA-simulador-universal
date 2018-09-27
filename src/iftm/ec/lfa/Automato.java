@@ -44,4 +44,17 @@ public class Automato {
     public void addEstadoFinal(int estado){
         this.estadosfinais.add(estado);
     }
+    
+    public boolean validaAFD(){
+        for(int i=0;i<this.transicoes.size();i++){
+            Transicao transicao = this.transicoes.get(i);
+            for(int j=i+1;j<this.transicoes.size();j++){
+                Transicao aux = this.transicoes.get(j);
+                if(transicao.getEstadoInicial() == aux.getEstadoInicial() &&
+                    transicao.getCaracter() == aux.getCaracter())
+                    return false;
+            }
+        }
+        return true;
+    }
 }

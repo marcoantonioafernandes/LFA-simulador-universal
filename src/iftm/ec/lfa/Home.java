@@ -33,8 +33,11 @@ public class Home extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         fieldNomeArquivo = new javax.swing.JTextField();
         btnProcurar = new javax.swing.JButton();
+        respostaAFD = new javax.swing.JLabel();
+        fieldAFD = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Simulador Universal de Autômato Finido Determinístico");
 
         jLabel1.setText("Arquivo de especificação:");
 
@@ -47,28 +50,40 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        respostaAFD.setText("Validade da AFD: ");
+
+        fieldAFD.setEditable(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(respostaAFD))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fieldNomeArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(fieldNomeArquivo, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
+                    .addComponent(fieldAFD))
                 .addGap(18, 18, 18)
                 .addComponent(btnProcurar)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(57, 57, 57)
+                .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(fieldNomeArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnProcurar))
-                .addContainerGap(209, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fieldAFD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(respostaAFD))
+                .addContainerGap(376, Short.MAX_VALUE))
         );
 
         pack();
@@ -80,8 +95,20 @@ public class Home extends javax.swing.JFrame {
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.showOpenDialog(this);
         File file = fc.getSelectedFile();
-        fieldNomeArquivo.setText(file.getPath());
-        AutomatoController.lerArquivo(file.getPath());
+        if(file != null){
+            fieldNomeArquivo.setText(file.getPath());
+            Automato automato = AutomatoController.lerArquivo(file.getPath());
+            if(automato != null){
+                boolean validaAFD = automato.validaAFD();
+                if(validaAFD){
+                    fieldAFD.setText("VALIDO");
+                } else{
+                    fieldAFD.setText("INVÁLIDO");
+                }
+            }else{
+                fieldAFD.setText("ARQUIVO INVALIDO");
+            }
+        }
     }//GEN-LAST:event_btnProcurarActionPerformed
 
     /**
@@ -121,7 +148,9 @@ public class Home extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnProcurar;
+    private javax.swing.JTextField fieldAFD;
     private javax.swing.JTextField fieldNomeArquivo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel respostaAFD;
     // End of variables declaration//GEN-END:variables
 }

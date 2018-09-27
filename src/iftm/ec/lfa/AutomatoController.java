@@ -7,6 +7,7 @@ package iftm.ec.lfa;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,44 +17,57 @@ import java.util.logging.Logger;
  */
 public class AutomatoController {
     //Estado de erro = 14;
-    public static void lerArquivo(String caminho){
+    public static Automato lerArquivo(String caminho){
         try {
             Scanner s = new Scanner(new File(caminho));
-            char c;
-            int e = 0;
-            boolean erro = false;
-            String valor = "";
             Automato automato = new Automato();
+            boolean erroArquivo = false;
+            boolean existeEstadoInicial = false;
             while(s.hasNextLine()){
                 Transicao transicao = new Transicao();
                 String linha = s.nextLine();
-                for(int i = 0;i < linha.length();i++){
-                    c = linha.charAt(i);
-                    switch(e){
-                        case 0:
-                            if(Character.isDigit(c)){
-                                e = 1;
-                                valor += c;
-                            }
-                            else if(c == 'F') e = 6;
-                            else if(c == 'I') e = 9;
-                            else e = 14;
-                            break;
-                        case 1:
-                            if(Character.isDigit(c)) valor += c;
-                            else if(c == ',') e = 2;
-                            else e = 14;
-                            break;
-                        case 2:
-                            transicao.setEstadoInicial(Integer.parseInt(valor));
-                            valor = "";
-                            //proximas transições
-                            break;
+                
+                if(linha.charAt(0) == 'I'){
+                    if(linha.length() != 3){
+                        erroArquivo = true;
+                        break;
+                    }
+                    automato.estadoInicial = (int)linha.charAt(2) - 48;
+                    existeEstadoInicial = true;
+                } else if(linha.charAt(0)  == 'F'){
+                    for(int j=2;j<linha.length();j++){
+                        if(Character.isDigit(linha.charAt(j))){
+                            int estado = (int)linha.charAt(j) - 48;
+                            automato.addEstadoFinal(estado);
+                        }
+                    }
+                }else{
+                    if(linha.length() != 5) {
+                        erroArquivo = true;
+                        break;
+                    }
+                    if(Character.isDigit(linha.charAt(0))  || 
+                            Character.isDigit(linha.charAt(2)) || 
+                            Character.isDigit(linha.charAt(4))){
+                        transicao.setEstadoInicial((int)linha.charAt(0) - 48);
+                        transicao.setCaracter(linha.charAt(2));
+                        transicao.setEstadoFinal((int)linha.charAt(4) - 48);
+                        automato.addTransicao(transicao);
+                    }else{
+                        erroArquivo = true;
+                        break;
                     }
                 }
             }
+            
+            if(erroArquivo || !existeEstadoInicial || automato.getEstadosfinais().isEmpty()){
+                return null;
+            }
+            return automato;
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(AutomatoController.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
     }
+    
+    
 }
