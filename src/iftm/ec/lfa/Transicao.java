@@ -10,43 +10,39 @@ package iftm.ec.lfa;
  * @author marco
  */
 public class Transicao {
-    private int estadoInicial;
-    private char caracter;
-    private int estadoFinal;
+    private String estadoInicial;
+    private String simbolo;
+    private String estadoFinal;
     
     public Transicao(){}
     
-    public Transicao(int estadoInicial, char caracter, int estadoFinal){
+    public Transicao(String estadoInicial, String simbolo, String estadoFinal){
         this.estadoInicial = estadoInicial;
-        this.caracter = caracter;
+        this.simbolo = simbolo;
         this.estadoFinal = estadoFinal;
     }
 
-    public int getEstadoInicial() {
+    public String getEstadoInicial() {
         return estadoInicial;
     }
 
-    public void setEstadoInicial(int estadoInicial) {
+    public void setEstadoInicial(String estadoInicial) {
         this.estadoInicial = estadoInicial;
     }
 
-    public char getCaracter() {
-        return caracter;
+    public String getSimbolo() {
+        return simbolo;
     }
 
-    public void setCaracter(char caracter) {
-        this.caracter = caracter;
+    public void setSimbolo(String simbolo) {
+        this.simbolo = simbolo;
     }
 
-    public int getEstadoFinal() {
+    public String getEstadoFinal() {
         return estadoFinal;
     }
 
-    public void setEstadoFinal(int estadoFinal) {
+    public void setEstadoFinal(String estadoFinal) {
         this.estadoFinal = estadoFinal;
-    }
-
-    
-    
-    
+    } 
 }
