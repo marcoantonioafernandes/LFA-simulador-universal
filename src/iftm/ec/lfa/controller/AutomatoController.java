@@ -136,6 +136,8 @@ public class AutomatoController {
                 }
             }
         }
+        
+        sentencaAtual += "</html>";
 
         automato.setSentencasPassoAPasso(sentencaAtual);
 
