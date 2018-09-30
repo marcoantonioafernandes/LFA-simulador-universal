@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package iftm.ec.lfa;
+package iftm.ec.lfa.model;
 
+import iftm.ec.lfa.model.Transicao;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class Automato {
     private List<String> alfabeto;
     private List<String> estados;
     private String estadoInicial;
+    private String sentencasPassoAPasso;
     
     public Automato() {
         this.transicoes = new ArrayList<Transicao>();
@@ -110,4 +112,13 @@ public class Automato {
         }
         return true;
     }
+
+    public String getSentencasPassoAPasso() {
+        return sentencasPassoAPasso;
+    }
+
+    public void setSentencasPassoAPasso(String sentencasPassoAPasso) {
+        this.sentencasPassoAPasso = sentencasPassoAPasso;
+    }
+       
 }

@@ -3,33 +3,42 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package iftm.ec.lfa;
+package iftm.ec.lfa.controller;
 
+import iftm.ec.lfa.model.Automato;
+import iftm.ec.lfa.model.Transicao;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 /**
  *
  * @author marco
  */
 public class AutomatoController {
+
+    private String sentencaAtual;
+
+    Automato automato;
+
+    public AutomatoController() {
+
+    }
+
     //Estado de erro = 14;
-    public static Automato lerArquivo(String caminho){
+    public Automato lerArquivo(String caminho) {
         try {
             Scanner s = new Scanner(new File(caminho));
-            Automato automato = new Automato();
+            automato = new Automato();
             boolean erroArquivo = false;
             boolean existeEstadoInicial = false;
-            while(s.hasNextLine()){
+            while (s.hasNextLine()) {
                 String linha = s.nextLine();
                 //Verifica se a ultima linha está correta
-                if(linha.charAt(0) == 'I'){
-                    if(linha.length() < 3){
+                if (linha.charAt(0) == 'I') {
+                    if (linha.length() < 3) {
                         erroArquivo = true;
                         break;
                     }
@@ -37,18 +46,18 @@ public class AutomatoController {
                     linha = linha.replace("I=", "");
                     automato.setEstadoInicial(linha);
                     existeEstadoInicial = true;
-                } else if(linha.charAt(0)  == 'F'){
+                } else if (linha.charAt(0) == 'F') {
                     //Retira o prefixo F= da string para separar os estados pelas ,
                     linha = linha.replace("F=", "");
                     String aux[] = linha.split(",");
                     List<String> estadosFinais = Arrays.asList(aux);
-                    for(int j=0;j<estadosFinais.size();j++){
+                    for (int j = 0; j < estadosFinais.size(); j++) {
                         String estado = estadosFinais.get(j);
                         automato.addEstadoFinal(estado);
                     }
-                }else{
+                } else {
                     //Verifica se a linha tem o mínimo de 5 caracteres (que é o minímo para estar correto)
-                    if(linha.length() < 5) {
+                    if (linha.length() < 5) {
                         erroArquivo = true;
                         break;
                     }
@@ -56,7 +65,7 @@ public class AutomatoController {
                     //Onde cada elemento da list é um elemento da transição
                     String aux[] = linha.split(",");
                     List<String> transicao = Arrays.asList(aux);
-                    if(transicao.size() != 3){
+                    if (transicao.size() != 3) {
                         erroArquivo = true;
                         break;
                     }
@@ -74,7 +83,7 @@ public class AutomatoController {
                 }
             }
             //Verifica se existe algum erro no arquivo
-            if(erroArquivo || !existeEstadoInicial || automato.getEstadosfinais().isEmpty()){
+            if (erroArquivo || !existeEstadoInicial || automato.getEstadosfinais().isEmpty()) {
                 return null;
             }
             return automato;
@@ -82,6 +91,55 @@ public class AutomatoController {
             return null;
         }
     }
-    
-    
+
+    /**
+     * Função que recebe uma sentença e valida ela conforme o arquivo de
+     * especificação
+     *
+     * @param sentenca array de caracteres que compoem a sentença
+     * @return retorna um boolean indicando de a sentenca é valida ou não
+     */
+    public boolean validarSentenca(String sentenca) {
+
+        sentencaAtual = new String();
+        sentencaAtual += "<html>" + sentenca + "<br>";
+
+        String estadoAtual = automato.getEstadoInicial(); // Inicializa o estado atual com o estado inicial do automato     
+        String simboloAtual = "";
+
+        // Percorrendo a sentença reconhecida
+        for (int i = 0; i < sentenca.length(); i++) {
+            simboloAtual = sentenca.charAt(i) + "";
+
+            //Percorrendo a lista de transações
+            for (Transicao transicao : automato.getTransicoes()) {
+                if (estadoAtual.equals(transicao.getEstadoInicial()) && simboloAtual.equals(transicao.getSimbolo())) {
+                  
+                    estadoAtual = transicao.getEstadoFinal();
+                    
+                    // Adiciona todos os caracteres anteriores
+                    sentencaAtual += sentenca.substring(0, i);
+
+                    // Adiciona o estado atual            
+                    sentencaAtual += "<font color='blue'>q" + estadoAtual + "</font>";
+
+                    // Adiciona o caracter atual
+                    sentencaAtual += "<font color='red'>" + simboloAtual + "</font>";
+
+                    // Adiciona todos os caracteres posteriores
+                    sentencaAtual += sentenca.substring(i + 1, sentenca.length());
+
+                    // Finaliza formatação
+                    sentencaAtual += "<br>";
+
+                    break;
+                }
+            }
+        }
+
+        automato.setSentencasPassoAPasso(sentencaAtual);
+
+        // Ao finalizar a leitura do automato, verificamos se o estado atual é um estado de aceitação
+        return (automato.getEstadosfinais().contains(estadoAtual));
+    }
 }
