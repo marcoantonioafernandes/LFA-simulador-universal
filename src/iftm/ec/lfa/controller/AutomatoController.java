@@ -47,6 +47,10 @@ public class AutomatoController {
                     automato.setEstadoInicial(linha);
                     existeEstadoInicial = true;
                 } else if (linha.charAt(0) == 'F') {
+                    if (linha.length() < 3) {
+                        erroArquivo = true;
+                        break;
+                    }
                     //Retira o prefixo F= da string para separar os estados pelas ,
                     linha = linha.replace("F=", "");
                     String aux[] = linha.split(",");
