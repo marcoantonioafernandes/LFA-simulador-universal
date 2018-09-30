@@ -16,11 +16,13 @@ import javax.swing.JFileChooser;
  */
 public class Home extends javax.swing.JFrame {
 
-    Automato automato;   
+    Automato automato;
     AutomatoController automatoCTRL = new AutomatoController();
-            
+
     public Home() {
         initComponents();
+        fieldSentenca.setEnabled(false);
+        btnValidar.setEnabled(false);
     }
 
     /**
@@ -163,39 +165,46 @@ public class Home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnProcurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcurarActionPerformed
-                
+
         JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.showOpenDialog(this);
         File file = fc.getSelectedFile();
-        if(file != null){
+        if (file != null) {
             fieldNomeArquivo.setText(file.getPath());
             automato = automatoCTRL.lerArquivo(file.getPath());
-            if(automato != null){
+            if (automato != null) {
                 boolean validaAFD = automato.validaAFD();
-                if(validaAFD){
+                if (validaAFD) {
                     fieldAFD.setText("<html><b><font color='green'>AFD Válido</font></b><html>");
-                } else{
+                    fieldSentenca.setEnabled(true);
+                    btnValidar.setEnabled(true);
+                } else {
                     fieldAFD.setText("<html><b><font color='red'>AFD Inválido</font></b><html>");
+                    fieldSentenca.setEnabled(false);
+                    btnValidar.setEnabled(false);
                 }
-            }else{
+            } else {
                 fieldAFD.setText("<html><b><font color='red'>Arquivo inválido</font></b><html>");
+                fieldSentenca.setEnabled(false);
+                btnValidar.setEnabled(false);
             }
         }
     }//GEN-LAST:event_btnProcurarActionPerformed
 
     /**
      * Função para validação da sentença
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnValidarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidarActionPerformed
-                
-       if(automatoCTRL.validarSentenca((fieldSentenca.getText()))){
-           fieldValidade.setText("<html><b><font color='green'>Sentença reconhecida</font></b><html>");           
-       } else {
-           fieldValidade.setText("<html><b><font color='red'>Sentença não reconhecida</font></b><html>");           
-       }
-       this.fieldPassoAPasso.setText(automato.getSentencasPassoAPasso());
+
+        if (automatoCTRL.validarSentenca((fieldSentenca.getText()))) {
+            fieldValidade.setText("<html><b><font color='green'>Sentença reconhecida</font></b><html>");
+        } else {
+            fieldValidade.setText("<html><b><font color='red'>Sentença não reconhecida</font></b><html>");
+        }
+        this.fieldPassoAPasso.setText(automato.getSentencasPassoAPasso());
 
     }//GEN-LAST:event_btnValidarActionPerformed
 
