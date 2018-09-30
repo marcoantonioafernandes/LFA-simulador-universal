@@ -114,8 +114,6 @@ public class AutomatoController {
             //Percorrendo a lista de transações
             for (Transicao transicao : automato.getTransicoes()) {
                 if (estadoAtual.equals(transicao.getEstadoInicial()) && simboloAtual.equals(transicao.getSimbolo())) {
-                  
-                    estadoAtual = transicao.getEstadoFinal();
                     
                     // Adiciona todos os caracteres anteriores
                     sentencaAtual += sentenca.substring(0, i);
@@ -131,6 +129,8 @@ public class AutomatoController {
 
                     // Finaliza formatação
                     sentencaAtual += "<br>";
+                  
+                    estadoAtual = transicao.getEstadoFinal();                                        
 
                     break;
                 }
