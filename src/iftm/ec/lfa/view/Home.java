@@ -177,18 +177,25 @@ public class Home extends javax.swing.JFrame {
                 boolean validaAFD = automato.validaAFD();
                 if (validaAFD) {
                     fieldAFD.setText("<html><b><font color='green'>AFD Válido</font></b><html>");
+                    // Ativa a opção para validar sentença
                     fieldSentenca.setEnabled(true);
                     btnValidar.setEnabled(true);
                 } else {
                     fieldAFD.setText("<html><b><font color='red'>AFD Inválido</font></b><html>");
+                    // Desativa a opção para validar sentença
                     fieldSentenca.setEnabled(false);
                     btnValidar.setEnabled(false);
                 }
             } else {
                 fieldAFD.setText("<html><b><font color='red'>Arquivo inválido</font></b><html>");
+                // Desativa a opção para validar sentença
                 fieldSentenca.setEnabled(false);
                 btnValidar.setEnabled(false);
             }
+            // Limpa inserções anteriores
+            fieldSentenca.setText("");
+            fieldValidade.setText("");
+            fieldPassoAPasso.setText("");
         }
     }//GEN-LAST:event_btnProcurarActionPerformed
 
@@ -202,10 +209,10 @@ public class Home extends javax.swing.JFrame {
         if (automatoCTRL.validarSentenca((fieldSentenca.getText()))) {
             fieldValidade.setText("<html><b><font color='green'>Sentença reconhecida</font></b><html>");
         } else {
-            fieldValidade.setText("<html><b><font color='red'>Sentença não reconhecida</font></b><html>");
+            fieldValidade.setText("<html><b><font color='red'>Sentença não reconhecida</font></b><html>");         
         }
+        // Mostra o passo a passo
         this.fieldPassoAPasso.setText(automato.getSentencasPassoAPasso());
-
     }//GEN-LAST:event_btnValidarActionPerformed
 
     /**
