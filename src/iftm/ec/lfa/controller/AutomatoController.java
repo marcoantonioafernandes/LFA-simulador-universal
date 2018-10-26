@@ -117,30 +117,35 @@ public class AutomatoController {
 
             //Percorrendo a lista de transações
             for (Transicao transicao : automato.getTransicoes()) {
-                if (estadoAtual.equals(transicao.getEstadoInicial()) && simboloAtual.equals(transicao.getSimbolo())) {
-                    
-                    // Adiciona todos os caracteres anteriores
-                    sentencaAtual += sentenca.substring(0, i);
+                // Conferindo se o simbolo reconhecido está no alfabeto
+                if (automato.getAlfabeto().contains(simboloAtual)) {
+                    if (estadoAtual.equals(transicao.getEstadoInicial()) && simboloAtual.equals(transicao.getSimbolo())) {
 
-                    // Adiciona o estado atual            
-                    sentencaAtual += "<font color='blue'>q" + estadoAtual + "</font>";
+                        // Adiciona todos os caracteres anteriores
+                        sentencaAtual += sentenca.substring(0, i);
 
-                    // Adiciona o caracter atual
-                    sentencaAtual += "<font color='red'>" + simboloAtual + "</font>";
+                        // Adiciona o estado atual            
+                        sentencaAtual += "<font color='blue'>q" + estadoAtual + "</font>";
 
-                    // Adiciona todos os caracteres posteriores
-                    sentencaAtual += sentenca.substring(i + 1, sentenca.length());
+                        // Adiciona o caracter atual
+                        sentencaAtual += "<font color='red'>" + simboloAtual + "</font>";
 
-                    // Finaliza formatação
-                    sentencaAtual += "<br>";
-                  
-                    estadoAtual = transicao.getEstadoFinal();                                        
+                        // Adiciona todos os caracteres posteriores
+                        sentencaAtual += sentenca.substring(i + 1, sentenca.length());
 
-                    break;
+                        // Finaliza formatação
+                        sentencaAtual += "<br>";
+
+                        estadoAtual = transicao.getEstadoFinal();
+
+                        break;
+                    }
+                } else {
+                    return false;
                 }
             }
         }
-        
+
         sentencaAtual += "</html>";
 
         automato.setSentencasPassoAPasso(sentencaAtual);
