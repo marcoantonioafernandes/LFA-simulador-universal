@@ -6,7 +6,9 @@
 package iftm.ec.lfa.view;
 
 import iftm.ec.lfa.model.Automato;
+import iftm.ec.lfa.model.GramaticaRegular;
 import iftm.ec.lfa.controller.AutomatoController;
+import iftm.ec.lfa.controller.GramaticaRegularController;
 import java.io.File;
 import javax.swing.JFileChooser;
 
@@ -17,12 +19,15 @@ import javax.swing.JFileChooser;
 public class Home extends javax.swing.JFrame {
 
     Automato automato;
+    GramaticaRegular gr;
     AutomatoController automatoCTRL = new AutomatoController();
+    GramaticaRegularController linguagemRegularCTRL = new GramaticaRegularController();
 
     public Home() {
         initComponents();
         fieldSentenca.setEnabled(false);
         btnValidar.setEnabled(false);
+        btnConverterGR.setEnabled(false);
     }
 
     /**
@@ -46,6 +51,11 @@ public class Home extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         fieldPassoAPasso = new javax.swing.JLabel();
         fieldSentenca = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
+        btnConverterGR = new javax.swing.JButton();
+        fieldValidade2 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        fieldGR = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Simulador Universal de Autômato Finido Determinístico");
@@ -110,12 +120,12 @@ public class Home extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(fieldSentenca, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnValidar, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
+                        .addComponent(btnValidar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(fieldValidade, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -134,6 +144,49 @@ public class Home extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Converter para Linguagem Regular:"));
+
+        btnConverterGR.setText("Converter");
+        btnConverterGR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConverterGRActionPerformed(evt);
+            }
+        });
+
+        jScrollPane4.setViewportView(fieldGR);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(496, 496, 496)
+                        .addComponent(btnConverterGR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(fieldValidade2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 676, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(94, 94, 94)
+                        .addComponent(fieldValidade2, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addComponent(btnConverterGR)
+                .addGap(27, 27, 27))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -146,7 +199,8 @@ public class Home extends javax.swing.JFrame {
                         .addGap(267, 267, 267)
                         .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -158,8 +212,12 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(52, Short.MAX_VALUE))
         );
+
+        jPanel4.getAccessibleContext().setAccessibleName("Converter para Linguagem Regular");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -180,11 +238,13 @@ public class Home extends javax.swing.JFrame {
                     // Ativa a opção para validar sentença
                     fieldSentenca.setEnabled(true);
                     btnValidar.setEnabled(true);
+                    btnConverterGR.setEnabled(true);
                 } else {
                     fieldAFD.setText("<html><b><font color='red'>AFD Inválido</font></b><html>");
                     // Desativa a opção para validar sentença
                     fieldSentenca.setEnabled(false);
                     btnValidar.setEnabled(false);
+                    btnConverterGR.setEnabled(false);
                 }
             } else {
                 fieldAFD.setText("<html><b><font color='red'>Arquivo inválido</font></b><html>");
@@ -214,6 +274,14 @@ public class Home extends javax.swing.JFrame {
         // Mostra o passo a passo
         this.fieldPassoAPasso.setText(automato.getSentencasPassoAPasso());
     }//GEN-LAST:event_btnValidarActionPerformed
+
+    private void btnConverterGRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConverterGRActionPerformed
+        // TODO add your handling code here:
+        if(automato != null){
+            this.gr = this.linguagemRegularCTRL.getLinguagemRegular(automato);
+            this.fieldGR.setText(this.gr.getLrHtml());
+        }
+    }//GEN-LAST:event_btnConverterGRActionPerformed
 
     /**
      * @param args the command line arguments
@@ -251,17 +319,22 @@ public class Home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnConverterGR;
     private javax.swing.JButton btnProcurar;
     private javax.swing.JButton btnValidar;
     private javax.swing.JLabel fieldAFD;
+    private javax.swing.JLabel fieldGR;
     private javax.swing.JTextField fieldNomeArquivo;
     private javax.swing.JLabel fieldPassoAPasso;
     private javax.swing.JTextField fieldSentenca;
     private javax.swing.JLabel fieldValidade;
+    private javax.swing.JLabel fieldValidade2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane4;
     // End of variables declaration//GEN-END:variables
 }

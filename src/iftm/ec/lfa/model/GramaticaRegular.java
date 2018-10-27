@@ -14,16 +14,18 @@ import java.util.Map;
  *
  * @author marco
  */
-public class LinguagemRegular {
+public class GramaticaRegular {
     private List<String> vn;
     private List<String> vt;
     private List<String> proposicoes;
     private String s;
+    private String grHtml;
     
-    public LinguagemRegular(){
+    public GramaticaRegular(){
         this.vn = new ArrayList<String>();
         this.vt = new ArrayList<String>();
         this.proposicoes = new ArrayList<String>();
+        this.lrHtml = "";
     }
 
     public List<String> getVn() {
@@ -58,41 +60,76 @@ public class LinguagemRegular {
         this.s = s;
     }
     
-    public void addVt(String s){
-        this.vn.add(s);
-    }
-    
     public void addProposicao(String s){
         this.proposicoes.add(s);
     }
     
+    public String getGrHtml(){
+        return this.grHtml;
+    }
+    
+    public void buildGrHtml(){
+        this.grHtml += "<html> VT = {  ";
+        
+        for(int i=0;i<this.vt.size();i++){
+            if(i != this.vt.size()-1){
+                this.grHtml += this.vt.get(i) + ", ";
+            }else {
+                this.grHtml += this.vt.get(i) + "} <br>";
+            }
+        }
+        
+        this.grHtml += "VN = {  ";
+        
+        for(int i=0;i<this.vn.size();i++){
+            if(i != this.vn.size()-1){
+                this.grHtml += this.vn.get(i) + ", ";
+            }else {
+                this.grHtml += this.vn.get(i) + "} <br>";
+            }
+        }
+        
+        this.grHtml += "S = { " + this.s + "} <br>";
+        
+        this.grHtml += "P = { <br>";
+        for(int i=0;i<this.proposicoes.size();i++){
+            if(i != this.proposicoes.size()-1){
+                this.grHtml += "&emsp;" + this.proposicoes.get(i) + "<br> ";
+            }else {
+                this.grHtml += "&emsp;" + this.proposicoes.get(i) + " <br> }";
+            }
+        }
+        
+        this.grHtml += "</html>";
+    }
     
     
     //Estados na linguagem serão representados por A seguido do numero do estado
-    public LinguagemRegular converteAFDparaLinguagemRegular(Automato m){
-        LinguagemRegular lr = new LinguagemRegular();
+    public void converteAFDparaLinguagemRegular(Automato m){
         for(int i=0;i<m.getAlfabeto().size();i++){
             //Adicionando simbolos do vocabulário terminal
-            lr.addVt(m.getAlfabeto().get(i));
+            this.vt.add(m.getAlfabeto().get(i));
         }
         
         Map<String, String> mapaVN = new HashMap<>();
          
         String estadoInicial = m.getEstadoInicial();
-        
+        char simboloTransicao = 'A';
         for(int i=0;i<m.getEstados().size();i++){
             String estado = m.getEstados().get(i);
-            char simboloTransicao = 'A';
+            
             if(estado.equals(estadoInicial)){
                 mapaVN.put(estado, "S");
+                this.vn.add("S");
             } else {
-                mapaVN.put(estado, String.valueOf(simboloTransicao++));
+                mapaVN.put(estado, String.valueOf(simboloTransicao));
+                this.vn.add(String.valueOf(simboloTransicao++));
             }
         }
         
         for(int i=0;i<m.getEstados().size();i++){
             String estado = m.getEstados().get(i);
-            String simboloTransicao = mapaVN.get(estado);
+            String simboloTransicao2 = mapaVN.get(estado);
             String proposicao = "";
             
             
@@ -101,21 +138,25 @@ public class LinguagemRegular {
                 Transicao transicao = m.getTransicoes().get(j);
                 if(estado.equals(transicao.getEstadoInicial())){
                     if(proposicao.equals("")){
-                        proposicao = simboloTransicao + " -> " + transicao.getSimbolo() 
-                                + transicao.getEstadoFinal();
+                        proposicao = simboloTransicao2 + " -> " + transicao.getSimbolo() 
+                                + mapaVN.get(transicao.getEstadoFinal());
+                    }else {
+                        proposicao+= " | " + transicao.getSimbolo() + mapaVN.get(transicao.getEstadoFinal());
                     }
-                    proposicao+= " | " + transicao.getSimbolo() + transicao.getEstadoFinal();
                 }
             }
+            
             if(m.getEstadosfinais().contains(estado)){
                 proposicao += "e";
             }
-            lr.addProposicao(s);
+            
+            if(estado.equals(m.getEstadoInicial())){
+                this.s = proposicao;
+            }
+            
+            
+            this.addProposicao(proposicao);
         }
-        
-        
-        
-        return lr;
     }
     
 }
