@@ -25,7 +25,7 @@ public class GramaticaRegular {
         this.vn = new ArrayList<String>();
         this.vt = new ArrayList<String>();
         this.proposicoes = new ArrayList<String>();
-        this.lrHtml = "";
+        this.grHtml = "";
     }
 
     public List<String> getVn() {

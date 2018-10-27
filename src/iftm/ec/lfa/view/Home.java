@@ -279,7 +279,7 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(automato != null){
             this.gr = this.linguagemRegularCTRL.getLinguagemRegular(automato);
-            this.fieldGR.setText(this.gr.getLrHtml());
+            this.fieldGR.setText(this.gr.getGrHtml());
         }
     }//GEN-LAST:event_btnConverterGRActionPerformed
 

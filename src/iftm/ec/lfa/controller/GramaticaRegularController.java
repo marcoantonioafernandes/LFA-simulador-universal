@@ -17,7 +17,7 @@ public class GramaticaRegularController {
     public GramaticaRegular getLinguagemRegular(Automato m){
         GramaticaRegular gr = new GramaticaRegular();
         gr.converteAFDparaLinguagemRegular(m);
-        gr.buildLrHtml();
+        gr.buildGrHtml();
         return gr;
     }
 }
