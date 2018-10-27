@@ -147,7 +147,7 @@ public class GramaticaRegular {
             }
             
             if(m.getEstadosfinais().contains(estado)){
-                proposicao += "e";
+                proposicao += " | e";
             }
             
             if(estado.equals(m.getEstadoInicial())){
