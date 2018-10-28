@@ -68,6 +68,7 @@ public class AutomatoController {
                     //Separa a linha por , criando um array e depois converte para list
                     //Onde cada elemento da list é um elemento da transição
                     String aux[] = linha.split(",");
+                    System.out.println("aux " + aux[1]);
                     List<String> transicao = Arrays.asList(aux);
                     if (transicao.size() != 3) {
                         erroArquivo = true;
@@ -153,4 +154,21 @@ public class AutomatoController {
         // Ao finalizar a leitura do automato, verificamos se o estado atual é um estado de aceitação
         return (automato.getEstadosfinais().contains(estadoAtual));
     }
+    
+    public String imprimeAutomato(Automato automato) {
+
+        String strAutomato = new String();
+        strAutomato += "<html>";
+
+        for (Transicao transicoes : automato.getTransicoes()) {
+            strAutomato += transicoes.getEstadoInicial() + "," + transicoes.getSimbolo() + "," + transicoes.getEstadoFinal() + "<br>";
+        } 
+        strAutomato += "I=" + automato.getEstadoInicial() + "<br>";
+        strAutomato += "F=" + String.join("", automato.getEstadosfinais()) + "<br>";
+        strAutomato += "</html>";
+        
+        return strAutomato;
+    }
+    
+    
 }

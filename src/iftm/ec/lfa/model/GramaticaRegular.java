@@ -35,6 +35,10 @@ public class GramaticaRegular {
     public void setVn(List<String> vn) {
         this.vn = vn;
     }
+    
+    public void addVn(String estado){
+        this.vn.add(estado);
+    }
 
     public List<String> getVt() {
         return vt;
@@ -42,6 +46,10 @@ public class GramaticaRegular {
 
     public void setVt(List<String> vt) {
         this.vt = vt;
+    }
+    
+    public void addVt(String estado){
+        this.vt.add(estado);
     }
 
     public List<String> getProposicoes() {
