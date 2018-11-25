@@ -1,14 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * MIT License - Copyright (c) 2018 Francielle da Silva Nunes, Marco Antônio de Almeida Fernandes
+ * Criada em 25 nov 2018
  */
 package iftm.ec.lfa.view;
 
 import iftm.ec.lfa.model.Automato;
-import iftm.ec.lfa.model.GramaticaRegular;
 import iftm.ec.lfa.controller.AutomatoController;
-import iftm.ec.lfa.controller.GramaticaRegularController;
 import java.io.File;
 import javax.swing.JFileChooser;
 
@@ -19,16 +16,12 @@ import javax.swing.JFileChooser;
 public class Home extends javax.swing.JFrame {
 
     Automato automato;
-    GramaticaRegular gr;
     AutomatoController automatoCTRL = new AutomatoController();
-    GramaticaRegularController linguagemRegularCTRL = new GramaticaRegularController();
 
     public Home() {
         initComponents();
-        fieldSentenca.setEnabled(false);
-        btnValidar.setEnabled(false);
-        btnConverterGR.setEnabled(false);
-        bntGRtoAFN.setEnabled(false);
+        txtSentenca.setEnabled(false);
+        btnValidarPassoAPasso.setEnabled(false);
     }
 
     /**
@@ -42,34 +35,23 @@ public class Home extends javax.swing.JFrame {
 
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        fieldNomeArquivo = new javax.swing.JTextField();
+        txtNomeArquivo = new javax.swing.JTextField();
         btnProcurar = new javax.swing.JButton();
-        fieldAFD = new javax.swing.JLabel();
+        txtArquivoValido = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        btnValidar = new javax.swing.JButton();
-        fieldValidade = new javax.swing.JLabel();
+        btnValidarPassoAPasso = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        fieldPassoAPasso = new javax.swing.JLabel();
-        fieldSentenca = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
-        btnConverterGR = new javax.swing.JButton();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        fieldGR = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        bntGRtoAFN = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        txtGLUDtoAFN = new javax.swing.JLabel();
-        fieldNomeArquivoGramatica = new javax.swing.JTextField();
-        btnProcurar2 = new javax.swing.JButton();
+        txtPassoAPasso = new javax.swing.JLabel();
+        txtSentenca = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Simulador Universal de Autômato Finido Determinístico");
 
-        jLabel2.setText("Simulador Universal - AFD");
+        jLabel2.setText("Simulador Universal - Autômato com Pilha");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Arquivo de especificação:"));
 
-        fieldNomeArquivo.setEditable(false);
+        txtNomeArquivo.setEditable(false);
 
         btnProcurar.setText("Selecionar arquivo");
         btnProcurar.addActionListener(new java.awt.event.ActionListener() {
@@ -78,8 +60,8 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
-        fieldAFD.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fieldAFD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtArquivoValido.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtArquivoValido.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -87,11 +69,11 @@ public class Home extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(fieldNomeArquivo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtNomeArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(btnProcurar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fieldAFD, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtArquivoValido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -101,27 +83,24 @@ public class Home extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(fieldNomeArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNomeArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnProcurar))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(fieldAFD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtArquivoValido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Simulação:"));
 
-        btnValidar.setText("Validar");
-        btnValidar.addActionListener(new java.awt.event.ActionListener() {
+        btnValidarPassoAPasso.setText("Validar passo-a-passo");
+        btnValidarPassoAPasso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnValidarActionPerformed(evt);
+                btnValidarPassoAPassoActionPerformed(evt);
             }
         });
 
-        fieldValidade.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        fieldValidade.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        fieldPassoAPasso.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jScrollPane2.setViewportView(fieldPassoAPasso);
+        txtPassoAPasso.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jScrollPane2.setViewportView(txtPassoAPasso);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -131,111 +110,21 @@ public class Home extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(fieldSentenca)
-                        .addContainerGap())
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(btnValidar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fieldValidade, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE))
-                            .addComponent(jScrollPane2))
-                        .addGap(5, 5, 5))))
+                        .addComponent(txtSentenca)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnValidarPassoAPasso, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2))
+                .addGap(5, 5, 5))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(fieldSentenca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnValidar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(fieldValidade, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("AFD para Gramática Regular:"));
-
-        btnConverterGR.setText("Converter");
-        btnConverterGR.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConverterGRActionPerformed(evt);
-            }
-        });
-
-        fieldGR.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jScrollPane4.setViewportView(fieldGR);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnConverterGR, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
-                    .addComponent(jScrollPane4))
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnConverterGR)
-                .addContainerGap())
-        );
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Grámatica Linear Unitária Direita para AFN"));
-
-        bntGRtoAFN.setText("Converter");
-        bntGRtoAFN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bntGRtoAFNActionPerformed(evt);
-            }
-        });
-
-        txtGLUDtoAFN.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        txtGLUDtoAFN.setBorder(null);
-        jScrollPane3.setViewportView(txtGLUDtoAFN);
-
-        btnProcurar2.setText("Selecionar arquivo");
-        btnProcurar2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProcurar2ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(fieldNomeArquivoGramatica, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnProcurar2, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(bntGRtoAFN, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 2, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fieldNomeArquivoGramatica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnProcurar2)
-                    .addComponent(bntGRtoAFN))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtSentenca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnValidarPassoAPasso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -250,12 +139,8 @@ public class Home extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(267, 267, 267)
                         .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 268, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -266,15 +151,9 @@ public class Home extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-
-        jPanel4.getAccessibleContext().setAccessibleName("Converter para Linguagem Regular");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -286,33 +165,22 @@ public class Home extends javax.swing.JFrame {
         fc.showOpenDialog(this);
         File file = fc.getSelectedFile();
         if (file != null) {
-            fieldNomeArquivo.setText(file.getPath());
-            automato = automatoCTRL.lerArquivo(file.getPath());
+            txtNomeArquivo.setText(file.getPath());
+            automato = automatoCTRL.leArquivo(file.getPath());
             if (automato != null) {
-                boolean validaAFD = automato.validaAFD();
-                if (validaAFD) {
-                    fieldAFD.setText("<html><b><font color='green'>AFD Válido</font></b><html>");
-                    // Ativa a opção para validar sentença
-                    fieldSentenca.setEnabled(true);
-                    btnValidar.setEnabled(true);
-                    btnConverterGR.setEnabled(true);
-                } else {
-                    fieldAFD.setText("<html><b><font color='red'>AFD Inválido</font></b><html>");
-                    // Desativa a opção para validar sentença
-                    fieldSentenca.setEnabled(false);
-                    btnValidar.setEnabled(false);
-                    btnConverterGR.setEnabled(false);
-                }
+                txtArquivoValido.setText("<html><b><font color='green'>Arquivo válido</font></b><html>");
+                // Ativa a opção para validar sentença
+                txtSentenca.setEnabled(true);
+                btnValidarPassoAPasso.setEnabled(true);
             } else {
-                fieldAFD.setText("<html><b><font color='red'>Arquivo inválido</font></b><html>");
+                txtArquivoValido.setText("<html><b><font color='red'>Arquivo inválido</font></b><html>");
                 // Desativa a opção para validar sentença
-                fieldSentenca.setEnabled(false);
-                btnValidar.setEnabled(false);
+                txtSentenca.setEnabled(false);
+                btnValidarPassoAPasso.setEnabled(false);
             }
             // Limpa inserções anteriores
-            fieldSentenca.setText("");
-            fieldValidade.setText("");
-            fieldPassoAPasso.setText("");
+            txtSentenca.setText("");
+            txtPassoAPasso.setText("");
         }
     }//GEN-LAST:event_btnProcurarActionPerformed
 
@@ -321,48 +189,11 @@ public class Home extends javax.swing.JFrame {
      *
      * @param evt
      */
-    private void btnValidarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidarActionPerformed
-
-        if (automatoCTRL.validarSentenca((fieldSentenca.getText()))) {
-            fieldValidade.setText("<html><b><font color='green'>Sentença reconhecida</font></b><html>");
-        } else {
-            fieldValidade.setText("<html><b><font color='red'>Sentença não reconhecida</font></b><html>");
-        }
+    private void btnValidarPassoAPassoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidarPassoAPassoActionPerformed
+        // TODO: adicionar lógico para fazer a validação passo a passo
         // Mostra o passo a passo
-        this.fieldPassoAPasso.setText(automato.getSentencasPassoAPasso());
-    }//GEN-LAST:event_btnValidarActionPerformed
-
-    private void btnConverterGRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConverterGRActionPerformed
-        // TODO add your handling code here:
-        if (automato != null) {
-            this.gr = this.linguagemRegularCTRL.getLinguagemRegular(automato);
-            this.fieldGR.setText(this.gr.getGrHtml());
-        }
-    }//GEN-LAST:event_btnConverterGRActionPerformed
-
-    private void btnProcurar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcurar2ActionPerformed
-        txtGLUDtoAFN.setText("");
-        JFileChooser fc = new JFileChooser();
-        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fc.showOpenDialog(this);
-        File file = fc.getSelectedFile();
-        if (file != null) {
-            fieldNomeArquivoGramatica.setText(file.getPath());
-            gr = linguagemRegularCTRL.lerArquivo(file.getPath());
-            if (gr != null) {
-                bntGRtoAFN.setEnabled(true);
-            }
-        }
-    }//GEN-LAST:event_btnProcurar2ActionPerformed
-
-    private void bntGRtoAFNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntGRtoAFNActionPerformed
-        if (gr != null) {
-            automato = linguagemRegularCTRL.converterGLUDparaAFN(gr);
-            if (automato != null) {
-                this.txtGLUDtoAFN.setText(automatoCTRL.imprimeAutomato(automato));                
-            }            
-        }
-    }//GEN-LAST:event_bntGRtoAFNActionPerformed
+        this.txtPassoAPasso.setText(automato.getSentencasPassoAPasso());
+    }//GEN-LAST:event_btnValidarPassoAPassoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -400,26 +231,15 @@ public class Home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bntGRtoAFN;
-    private javax.swing.JButton btnConverterGR;
     private javax.swing.JButton btnProcurar;
-    private javax.swing.JButton btnProcurar2;
-    private javax.swing.JButton btnValidar;
-    private javax.swing.JLabel fieldAFD;
-    private javax.swing.JLabel fieldGR;
-    private javax.swing.JTextField fieldNomeArquivo;
-    private javax.swing.JTextField fieldNomeArquivoGramatica;
-    private javax.swing.JLabel fieldPassoAPasso;
-    private javax.swing.JTextField fieldSentenca;
-    private javax.swing.JLabel fieldValidade;
+    private javax.swing.JButton btnValidarPassoAPasso;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JLabel txtGLUDtoAFN;
+    private javax.swing.JLabel txtArquivoValido;
+    private javax.swing.JTextField txtNomeArquivo;
+    private javax.swing.JLabel txtPassoAPasso;
+    private javax.swing.JTextField txtSentenca;
     // End of variables declaration//GEN-END:variables
 }

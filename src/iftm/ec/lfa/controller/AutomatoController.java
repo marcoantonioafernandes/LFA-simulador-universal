@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * MIT License - Copyright (c) 2018 Francielle da Silva Nunes, Marco Antônio de Almeida Fernandes
+ * Criada em 25 nov 2018
  */
 package iftm.ec.lfa.controller;
 
@@ -14,8 +13,8 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- *
- * @author marco
+ * @author Francielle da Silva Nunes
+ * @author Marco Antônio de Almeida Fernandes
  */
 public class AutomatoController {
 
@@ -24,11 +23,10 @@ public class AutomatoController {
     Automato automato;
 
     public AutomatoController() {
-
     }
 
     //Estado de erro = 14;
-    public Automato lerArquivo(String caminho) {
+    public Automato leArquivo(String caminho) {
         try {
             Scanner s = new Scanner(new File(caminho));
             automato = new Automato();
@@ -36,13 +34,13 @@ public class AutomatoController {
             boolean existeEstadoInicial = false;
             while (s.hasNextLine()) {
                 String linha = s.nextLine();
-                //Verifica se a ultima linha está correta
+                // Verifica se a ultima linha está correta
                 if (linha.charAt(0) == 'I') {
                     if (linha.length() < 3) {
                         erroArquivo = true;
                         break;
                     }
-                    //Retira o I= da ultima linha para restar só o valor do estado inicial na linha
+                    // Retira o I= da ultima linha para restar só o valor do estado inicial na linha
                     linha = linha.replace("I=", "");
                     automato.setEstadoInicial(linha);
                     existeEstadoInicial = true;
@@ -51,7 +49,7 @@ public class AutomatoController {
                         erroArquivo = true;
                         break;
                     }
-                    //Retira o prefixo F= da string para separar os estados pelas ,
+                    // Retira o prefixo F= da string para separar os estados pelas ,
                     linha = linha.replace("F=", "");
                     String aux[] = linha.split(",");
                     List<String> estadosFinais = Arrays.asList(aux);
@@ -60,38 +58,66 @@ public class AutomatoController {
                         automato.addEstadoFinal(estado);
                     }
                 } else {
-                    //Verifica se a linha tem o mínimo de 5 caracteres (que é o minímo para estar correto)
-                    if (linha.length() < 5) {
+                    // Verifica se a linha tem o mínimo de 9 caracteres (que é o minímo para estar correto)
+                    if (linha.length() < 9) {
                         erroArquivo = true;
                         break;
                     }
-                    //Separa a linha por , criando um array e depois converte para list
-                    //Onde cada elemento da list é um elemento da transição
+                    // Separa a linha por , criando um array e depois converte para list
+                    // Onde cada elemento da list é um elemento da transição
                     String aux[] = linha.split(",");
-                    System.out.println("aux " + aux[1]);
                     List<String> transicao = Arrays.asList(aux);
-                    if (transicao.size() != 3) {
+                    if (transicao.size() != 5) {
                         erroArquivo = true;
                         break;
                     }
+
                     Transicao novaTransicao = new Transicao();
                     String estadoInicial = transicao.get(0);
-                    String simbolo = transicao.get(1);
-                    String estadoFinal = transicao.get(2);
+                    String simboloLeituraFita = transicao.get(1);
+                    String simboloLeituraPilha = transicao.get(2);
+                    String simboloEscritaPilha = transicao.get(3);
+                    String estadoFinal = transicao.get(4);
+
                     novaTransicao.setEstadoInicial(estadoInicial);
-                    novaTransicao.setSimbolo(simbolo);
+                    novaTransicao.setSimboloLeituraFita(simboloLeituraFita);
+                    novaTransicao.setSimboloLeituraPilha(simboloLeituraPilha);
+                    novaTransicao.setSimboloEscritaPilha(simboloEscritaPilha);
                     novaTransicao.setEstadoFinal(estadoFinal);
+
                     automato.addTransicao(novaTransicao);
-                    automato.addSimboloAlfabeto(simbolo);
+
+                    if (!simboloLeituraFita.equals("?") && !simboloLeituraFita.equals("$")) {                        
+                        automato.addSimboloAlfabeto(simboloLeituraFita);
+                    }
+                    if (!simboloLeituraPilha.equals("?") && !simboloLeituraPilha.equals("$")) {
+                        automato.addSimboloAlfabeto(simboloLeituraPilha);
+                    }
+                    if (!simboloEscritaPilha.equals("?") && !simboloEscritaPilha.equals("$")) {
+                        automato.addSimboloAlfabeto(simboloEscritaPilha);
+                    }
+
                     automato.addEstado(estadoInicial);
                     automato.addEstado(estadoFinal);
                 }
             }
-            //Verifica se existe algum erro no arquivo
+            // Verifica se existe algum erro no arquivo
             if (erroArquivo || !existeEstadoInicial || automato.getEstadosfinais().isEmpty()) {
                 return null;
             }
+
+            /* for (Transicao transicoes : automato.getTransicoes()) {
+                System.out.print(transicoes.getEstadoInicial() + ",");
+                System.out.print(transicoes.getSimboloLeituraFita() + ",");
+                System.out.print(transicoes.getSimboloLeituraPilha() + ",");
+                System.out.print(transicoes.getSimboloEscritaPilha() + ",");
+                System.out.println(transicoes.getEstadoFinal());
+            }                                   
+            System.out.println(automato.getEstadoInicial());
+            System.out.println(automato.getEstadosfinais()); */
+
             return automato;
+
         } catch (FileNotFoundException ex) {
             return null;
         }
@@ -102,11 +128,11 @@ public class AutomatoController {
      * especificação
      *
      * @param sentenca array de caracteres que compoem a sentença
-     * @return retorna um boolean indicando de a sentenca é valida ou não
+     * @return retorna um boolean indicando se a sentenca é valida ou não
      */
-    public boolean validarSentenca(String sentenca) {
+    public boolean validaSentencaPassoAPasso(String sentenca) {
 
-        sentencaAtual = new String();
+        /* sentencaAtual = new String();
         sentencaAtual += "<html>" + sentenca + "<br>";
 
         String estadoAtual = automato.getEstadoInicial(); // Inicializa o estado atual com o estado inicial do automato     
@@ -153,22 +179,31 @@ public class AutomatoController {
 
         // Ao finalizar a leitura do automato, verificamos se o estado atual é um estado de aceitação
         return (automato.getEstadosfinais().contains(estadoAtual));
+         */
+        return false;
     }
-    
+
+    /**
+     * Função utilizada para imprimir um automato na tela
+     *
+     * @param automato
+     * @return retorna uma string formatada com o automato reconhecido
+     */
     public String imprimeAutomato(Automato automato) {
 
         String strAutomato = new String();
         strAutomato += "<html>";
 
         for (Transicao transicoes : automato.getTransicoes()) {
-            strAutomato += transicoes.getEstadoInicial() + "," + transicoes.getSimbolo() + "," + transicoes.getEstadoFinal() + "<br>";
-        } 
+            strAutomato += transicoes.getEstadoInicial() + "," + transicoes.getSimboloLeituraFita() + "," + transicoes.getSimboloLeituraPilha()
+                    + "," + transicoes.getSimboloEscritaPilha() + "," + transicoes.getEstadoFinal() + "<br>";
+        }
+
         strAutomato += "I=" + automato.getEstadoInicial() + "<br>";
         strAutomato += "F=" + String.join("", automato.getEstadosfinais()) + "<br>";
         strAutomato += "</html>";
-        
+
         return strAutomato;
     }
-    
-    
+
 }
