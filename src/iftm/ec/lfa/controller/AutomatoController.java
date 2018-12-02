@@ -8,6 +8,7 @@ import iftm.ec.lfa.model.Automato;
 import iftm.ec.lfa.model.Transicao;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -87,7 +88,7 @@ public class AutomatoController {
 
                     automato.addTransicao(novaTransicao);
 
-                    if (!simboloLeituraFita.equals("?") && !simboloLeituraFita.equals("$")) {                        
+                    if (!simboloLeituraFita.equals("?") && !simboloLeituraFita.equals("$")) {
                         automato.addSimboloAlfabeto(simboloLeituraFita);
                     }
                     if (!simboloLeituraPilha.equals("?") && !simboloLeituraPilha.equals("$")) {
@@ -115,7 +116,6 @@ public class AutomatoController {
             }                                   
             System.out.println(automato.getEstadoInicial());
             System.out.println(automato.getEstadosfinais()); */
-
             return automato;
 
         } catch (FileNotFoundException ex) {
@@ -131,7 +131,10 @@ public class AutomatoController {
      * @return retorna um boolean indicando se a sentenca é valida ou não
      */
     public boolean validaSentencaPassoAPasso(String sentenca) {
-
+        ArrayList<String> pilha = new ArrayList<String>();
+        //testeRecursao(0);
+        boolean valida = validarSentenca(sentenca, 0, "0", pilha, 0);
+        System.out.println(valida);
         /* sentencaAtual = new String();
         sentencaAtual += "<html>" + sentenca + "<br>";
 
@@ -181,6 +184,63 @@ public class AutomatoController {
         return (automato.getEstadosfinais().contains(estadoAtual));
          */
         return false;
+    }
+
+    public boolean validarSentenca(String sentenca, int idx, String estado, ArrayList<String> pilha, int idTransicao) {
+        boolean valida = false;
+        if (pilha.size() == 0 && !estado.equals("0")) {
+            for (String estadoFinal : automato.getEstadosfinais()) {
+                if (estadoFinal.equals(estado)) {
+                    valida = true;
+                }
+            }
+            return valida;
+        }
+
+        for (String estadoFinal : automato.getEstadosfinais()) {
+            if (estadoFinal.equals(estado)) {
+                return valida;
+            }
+        }
+
+        for (int i = 0; i < automato.getTransicoes().size(); i++) {
+            Transicao transicao = automato.getTransicoes().get(i);
+            if (transicao.getEstadoInicial().equals(estado)) {
+
+                if (idx < sentenca.length() && transicao.getSimboloLeituraFita().equals(sentenca.charAt(idx) + "")
+                        || estado.equals("0")) {
+                    if (!transicao.getSimboloLeituraPilha().equals("?")) {
+                        String elemento = pilha.get(pilha.size() - 1);
+                        if (!elemento.equals(transicao.getSimboloLeituraPilha())) {
+                            return false;
+                        }
+                        pilha.remove(pilha.size() - 1);
+
+                    }
+
+                    if (!transicao.getSimboloEscritaPilha().equals("?")) {
+                        pilha.add(transicao.getSimboloEscritaPilha());
+                    }
+
+                    if (transicao.getSimboloLeituraFita().equals("?")) {
+                        valida = validarSentenca(sentenca, idx, transicao.getEstadoFinal(), pilha, i);
+                    } else {
+                        valida = validarSentenca(sentenca, idx + 1, transicao.getEstadoFinal(), pilha, i);
+                        if (!valida) {
+                            pilha.remove(pilha.size() - 1);
+                        }
+                    }
+                } else if (transicao.getSimboloLeituraFita().equals("?")) {
+                    valida = validarSentenca(sentenca, idx, transicao.getEstadoFinal(), pilha, i);
+                }
+            }
+
+            if (valida) {
+                break;
+            }
+        }
+
+        return valida;
     }
 
     /**

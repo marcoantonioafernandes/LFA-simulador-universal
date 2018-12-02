@@ -102,6 +102,12 @@ public class Home extends javax.swing.JFrame {
         txtPassoAPasso.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jScrollPane2.setViewportView(txtPassoAPasso);
 
+        txtSentenca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSentencaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -192,8 +198,13 @@ public class Home extends javax.swing.JFrame {
     private void btnValidarPassoAPassoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidarPassoAPassoActionPerformed
         // TODO: adicionar lógico para fazer a validação passo a passo
         // Mostra o passo a passo
+        automatoCTRL.validaSentencaPassoAPasso(txtSentenca.getText());
         this.txtPassoAPasso.setText(automato.getSentencasPassoAPasso());
     }//GEN-LAST:event_btnValidarPassoAPassoActionPerformed
+
+    private void txtSentencaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSentencaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSentencaActionPerformed
 
     /**
      * @param args the command line arguments
